@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { 
   Mail, 
   Phone, 
@@ -11,69 +11,97 @@ import {
   Rocket, 
   GraduationCap,
   Code2,
-  Cpu,
-  Database,
-  Cloud,
   ExternalLink,
-  Sparkles,
   ChevronRight,
   Award,
   Calendar,
   MapPin,
   Download,
-  Wifi,
-  Users,
-  BarChart,
-  Book,
+  Sparkles,
+  ArrowUp,
+  Brain,
   ShoppingBag,
+  Book,
   MessageCircle,
-  Monitor
+  Wifi,
+  Terminal,
+  BarChart,
+  CheckCircle,
+  Zap,
+  Server,
+  Database,
+  Layout,
+  Command,
+  GitBranch,
+  Cpu,
+  Shield,
+  Users,
+  Target,
+  TrendingUp,
+  Cloud,
+  Globe,
+  Workflow
 } from "lucide-react"
 import "./App.css"
 
 function App() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [activeSection, setActiveSection] = useState("about")
-  const [scrollY, setScrollY] = useState(0)
-  const particlesRef = useRef([])
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+  const containerRef = useRef(null)
+  
+  // Refined color theme
+  const theme = {
+    primary: "#3b82f6",    // Blue
+    secondary: "#8b5cf6",  // Purple
+    accent: "#06b6d4",     // Cyan
+    dark: "#0f172a",       // Navy
+    light: "#f8fafc",      // Light
+    card: "#1e293b",       // Slate
+    success: "#10b981",    // Emerald
+    warning: "#f59e0b",    // Amber
+    gradient: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+    gradientFull: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%)"
+  }
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  })
+  
+  const headerBackground = useTransform(
+    scrollYProgress,
+    [0, 0.1],
+    ["rgba(15, 23, 42, 0)", "rgba(15, 23, 42, 0.98)"]
+  )
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePosition({ 
-        x: e.clientX, 
-        y: e.clientY 
-      })
-    }
-
     const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    window.addEventListener("scroll", handleScroll)
-    
-    // Create floating particles animation
-    const updateParticles = () => {
-      particlesRef.current.forEach((particle, i) => {
-        if (particle) {
-          const x = Math.sin(Date.now() * 0.001 + i) * 50
-          const y = Math.cos(Date.now() * 0.001 + i) * 50
-          particle.style.transform = `translate(${x}px, ${y}px)`
+      setIsScrolled(window.scrollY > 100)
+      
+      const sections = ["about", "experience", "projects", "skills", "education"]
+      const currentSection = sections.find(section => {
+        const element = document.getElementById(section)
+        if (element) {
+          const rect = element.getBoundingClientRect()
+          return rect.top <= 200 && rect.bottom >= 200
         }
+        return false
       })
+      
+      if (currentSection && currentSection !== activeSection) {
+        setActiveSection(currentSection)
+      }
     }
 
-    const interval = setInterval(updateParticles, 50)
+    window.addEventListener("scroll", handleScroll, { passive: true })
     
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove)
-      window.removeEventListener("scroll", handleScroll)
-      clearInterval(interval)
-    }
-  }, [])
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [activeSection])
 
   const scrollToSection = (id) => {
     setActiveSection(id)
+    setIsMenuOpen(false)
     const element = document.getElementById(id)
     if (element) {
       const offset = 80
@@ -87,860 +115,981 @@ function App() {
     }
   }
 
-  const skillsData = {
-    technical: [
-      { name: "C++", level: 85, icon: "⚙️" },
-      { name: "Java", level: 80, icon: "☕" },
-      { name: "Python", level: 90, icon: "🐍" },
-      { name: "JavaScript", level: 82, icon: "📜" },
-    ],
-    web: [
-      { name: "HTML5", level: 90, icon: "🌐" },
-      { name: "CSS", level: 85, icon: "🎨" },
-      { name: "Full Stack", level: 83, icon: "🚀" },
-      { name: "MySQL", level: 88, icon: "🗄️" },
-    ],
-    soft: [
-      { name: "Problem Solving", level: 90, icon: "💡" },
-      { name: "Software Planning", level: 85, icon: "📋" },
-      { name: "Generative AI", level: 78, icon: "🤖" },
-      { name: "Team Collaboration", level: 87, icon: "👥" },
-    ]
-  }
+  // Technical Skills with proper icons
+  const techSkills = [
+    { name: "Java", level: 85, icon: <Cpu size={18} />, category: "Backend" },
+    { name: "Python", level: 90, icon: <Brain size={18} />, category: "AI/ML" },
+    { name: "JavaScript", level: 82, icon: <Code2 size={18} />, category: "Frontend" },
+    { name: "React", level: 78, icon: <Layout size={18} />, category: "Frontend" },
+    { name: "MySQL", level: 88, icon: <Database size={18} />, category: "Database" },
+    { name: "HTML/CSS", level: 92, icon: <Globe size={18} />, category: "Frontend" },
+    { name: "C++", level: 80, icon: <Terminal size={18} />, category: "Backend" },
+    { name: "Spring Boot", level: 75, icon: <Server size={18} />, category: "Backend" }
+  ]
+
+  // Projects with clear, detailed descriptions
+  const projects = [
+    {
+      title: "Mental Health Support Chatbot",
+      description: "An AI-powered chatbot designed to provide immediate emotional support and coping strategies. The system uses Natural Language Processing to understand user emotions and respond empathetically while maintaining ethical boundaries.",
+      icon: <Brain size={22} />,
+      tech: ["Python", "TensorFlow", "NLP", "React", "Node.js"],
+      features: [
+        "Emotion recognition from text input",
+        "Context-aware responses",
+        "Privacy-focused design",
+        "Resource recommendation system"
+      ],
+      link: "#",
+      category: "AI/ML Application",
+      color: theme.primary
+    },
+    {
+      title: "E-Commerce Platform",
+      description: "A full-featured online shopping platform with user authentication, product catalog, shopping cart, payment integration, and admin dashboard. Built with scalable architecture for handling multiple concurrent users.",
+      icon: <ShoppingBag size={22} />,
+      tech: ["Java", "Spring Boot", "MySQL", "React", "Redux"],
+      features: [
+        "Secure user authentication",
+        "Real-time inventory management",
+        "Payment gateway integration",
+        "Order tracking system"
+      ],
+      link: "#",
+      category: "Full Stack Web App",
+      color: theme.secondary
+    },
+    {
+      title: "Digital Library Management",
+      description: "A comprehensive library management system enabling digital book tracking, reservations, and member management. Includes analytics dashboard for librarians to monitor borrowing patterns and popular genres.",
+      icon: <Book size={22} />,
+      tech: ["Java", "MySQL", "JSP", "Bootstrap", "JavaScript"],
+      features: [
+        "Automated book tracking",
+        "Overdue fine calculation",
+        "Member activity reports",
+        "Multi-user access control"
+      ],
+      link: "#",
+      category: "Management System",
+      color: theme.accent
+    },
+    {
+      title: "AI Skincare Assistant",
+      description: "Intelligent skincare recommendation system that analyzes skin types and conditions to provide personalized skincare routines and product suggestions using machine learning algorithms.",
+      icon: <MessageCircle size={22} />,
+      tech: ["Python", "Flask", "OpenAI API", "JavaScript", "CSS"],
+      features: [
+        "Skin type classification",
+        "Personalized routine generation",
+        "Ingredient analysis",
+        "Progress tracking"
+      ],
+      link: "#",
+      category: "Health & Wellness AI",
+      color: theme.success
+    }
+  ]
+
+  // Experience section
+  const experiences = [
+    {
+      company: "BSNL Telecom",
+      role: "Network Engineering Intern",
+      period: "Jun 2023 - Jul 2023",
+      icon: <Wifi size={18} />,
+      points: [
+        "Hands-on experience with network infrastructure setup and maintenance",
+        "Configured routers and switches for optimal network performance",
+        "Participated in troubleshooting network connectivity issues",
+        "Learned about telecom protocols and data transmission"
+      ],
+      color: theme.primary
+    },
+    {
+      company: "Accenture",
+      role: "Developer Program Intern",
+      period: "May 2023 - Jun 2023",
+      icon: <Terminal size={18} />,
+      points: [
+        "Developed Python solutions for business automation tasks",
+        "Implemented Agile methodologies in project development",
+        "Conducted code reviews and collaborative debugging sessions",
+        "Created technical documentation for developed solutions"
+      ],
+      color: theme.secondary
+    },
+    {
+      company: "Accenture Analytics",
+      role: "Data Visualization Intern",
+      period: "Apr 2023 - May 2023",
+      icon: <BarChart size={18} />,
+      points: [
+        "Transformed raw data into interactive dashboards using BI tools",
+        "Identified key business insights through data analysis",
+        "Created visualization reports for stakeholder presentations",
+        "Optimized data processing workflows for efficiency"
+      ],
+      color: theme.accent
+    }
+  ]
+
+  // Achievements
+  const achievements = [
+    { number: "5+", label: "Projects", icon: <Rocket size={18} />, color: theme.primary },
+    { number: "3", label: "Internships", icon: <Briefcase size={18} />, color: theme.secondary },
+    { number: "8.2", label: "CGPA", icon: <Award size={18} />, color: theme.success },
+    { number: "15+", label: "Technologies", icon: <Code2 size={18} />, color: theme.accent }
+  ]
+
+  // Tech Stack Categories
+  const techCategories = [
+    {
+      title: "Frontend",
+      skills: ["React", "JavaScript", "HTML5", "CSS3", "Bootstrap", "Tailwind"],
+      icon: <Layout size={20} />,
+      color: theme.primary
+    },
+    {
+      title: "Backend",
+      skills: ["Java", "Python", "Spring Boot", "Node.js", "C++", "Flask"],
+      icon: <Server size={20} />,
+      color: theme.secondary
+    },
+    {
+      title: "Database",
+      skills: ["MySQL", "MongoDB", "PostgreSQL", "Firebase"],
+      icon: <Database size={20} />,
+      color: theme.success
+    },
+    {
+      title: "Tools & DevOps",
+      skills: ["Git", "VS Code", "Figma", "Docker", "Agile", "Jira"],
+      icon: <Command size={20} />,
+      color: theme.accent
+    }
+  ]
 
   return (
-    <div className="app">
-      {/* Animated Background with Gradient Mesh */}
-      <div className="bg-gradient"></div>
-      <div className="gradient-mesh"></div>
-      
-      {/* Animated Mouse Glow */}
-      <motion.div
-        className="mouse-glow"
-        animate={{
-          x: mousePosition.x - 200,
-          y: mousePosition.y - 200,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 0.1
+    <div className="app" ref={containerRef}>
+      {/* Fixed Background */}
+      <div className="minimal-bg"></div>
+
+      {/* Progress Indicator */}
+      <motion.div 
+        className="scroll-progress"
+        style={{ 
+          scaleX: scrollYProgress,
+          background: theme.gradient
         }}
       />
 
-      {/* Floating Particles with Animation */}
-      <div className="particles-container">
-        {[...Array(30)].map((_, i) => (
-          <motion.div
-            key={i}
-            ref={el => particlesRef.current[i] = el}
-            className="particle"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: Math.random() * 0.5 + 0.5,
-              opacity: Math.random() * 0.3 + 0.1,
-            }}
-            animate={{
-              y: [null, Math.random() * -100],
-              x: [null, Math.random() * 50 - 25],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-            style={{
-              width: Math.random() * 4 + 2,
-              height: Math.random() * 4 + 2,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Navigation Dots - Hidden on Mobile */}
-      <div className="nav-dots">
-        {["about", "summary", "experience", "projects", "skills", "education"].map((section, idx) => (
-          <motion.button
-            key={section}
-            onClick={() => scrollToSection(section)}
-            className={`nav-dot ${activeSection === section ? "active" : ""}`}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            animate={{
-              opacity: activeSection === section ? 1 : 0.6,
-              scale: activeSection === section ? 1.2 : 1
-            }}
-          >
-            <span className="dot-tooltip">
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-            </span>
-          </motion.button>
-        ))}
-      </div>
-
-      {/* Header */}
+      {/* Fixed Header */}
       <motion.header 
-        className="glass-header"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.6, type: "spring" }}
+        className="compact-header"
+        style={{ backgroundColor: headerBackground }}
       >
-        <div className="header-content">
-          <motion.div 
-            className="logo"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Sparkles className="sparkle-icon" size={20} />
-            <h1 className="logo-text">
-              <span className="gradient-text">SWETHA</span>
-              <span className="logo-surname"> S</span>
-            </h1>
-            <div className="badge">Software Developer</div>
-          </motion.div>
-
-          <nav className="nav-links">
-            {["About", "Summary", "Experience", "Projects", "Skills", "Education"].map((item, idx) => (
-              <motion.button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                className={`nav-btn ${activeSection === item.toLowerCase() ? "active" : ""}`}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                animate={{
-                  color: activeSection === item.toLowerCase() ? "var(--accent)" : "var(--text-secondary)"
-                }}
-              >
-                {item}
-                {activeSection === item.toLowerCase() && (
-                  <motion.div 
-                    className="nav-indicator"
-                    layoutId="nav-indicator"
-                  />
-                )}
-              </motion.button>
-            ))}
-            
-            <motion.a
-              href="#"
-              className="resume-btn"
+        <div className="container">
+          <div className="header-content">
+            {/* Fixed Logo - No empty gradient box */}
+            <motion.div 
+              className="logo"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Download size={18} />
-              Resume
-            </motion.a>
-          </nav>
+              <div className="logo-mark">
+                <Code2 size={22} />
+              </div>
+              <span className="logo-text">SWETHA S</span>
+              <motion.span 
+                className="logo-badge"
+                animate={{ 
+                  boxShadow: [
+                    `0 0 0px ${theme.primary}40`,
+                    `0 0 8px ${theme.primary}80`,
+                    `0 0 0px ${theme.primary}40`
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                <Zap size={12} />
+                <span>Developer</span>
+              </motion.span>
+            </motion.div>
 
-          {/* Mobile Menu Button */}
-          <button className="mobile-menu-btn">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
+            {/* Navigation */}
+            <nav className="compact-nav">
+              {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
+                <motion.button
+                  key={item}
+                  onClick={() => scrollToSection(item.toLowerCase())}
+                  className={`nav-item ${activeSection === item.toLowerCase() ? 'active' : ''}`}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {item}
+                  {activeSection === item.toLowerCase() && (
+                    <motion.div 
+                      className="nav-indicator"
+                      layoutId="nav-indicator"
+                    />
+                  )}
+                </motion.button>
+              ))}
+              <motion.a 
+                href="/Swetha1.pdf" 
+                download
+                className="resume-btn"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                style={{ background: theme.gradient }}
+              >
+                <Download size={16} />
+                <span>Resume</span>
+              </motion.a>
+            </nav>
+
+            {/* Mobile Menu */}
+            <motion.button 
+              className="menu-btn"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              whileTap={{ scale: 0.9 }}
+            >
+              <span className={`menu-bar ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`menu-bar ${isMenuOpen ? 'open' : ''}`}></span>
+              <span className={`menu-bar ${isMenuOpen ? 'open' : ''}`}></span>
+            </motion.button>
+          </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div 
+              className="mobile-menu"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <div className="mobile-menu-content">
+                {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
+                  <motion.button
+                    key={item}
+                    onClick={() => scrollToSection(item.toLowerCase())}
+                    className={`mobile-nav-item ${activeSection === item.toLowerCase() ? 'active' : ''}`}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ChevronRight size={16} />
+                    {item}
+                  </motion.button>
+                ))}
+                <motion.a 
+                  href="/Swetha1.pdf" 
+                  download
+                  className="mobile-resume"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -20, opacity: 0 }}
+                  style={{ background: theme.gradient }}
+                >
+                  <Download size={18} />
+                  Download Resume
+                </motion.a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       {/* Main Content */}
       <main className="main-content">
-        {/* Hero Section */}
+        {/* Hero Section - Fixed gradient issue */}
         <section id="about" className="hero-section">
-          <motion.div 
-            className="hero-container"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="hero-content">
-              <div className="hero-text">
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <p className="hero-greeting">Hi, I'm</p>
-                  <h1 className="hero-name">
-                    <span className="gradient-text">SWETHA.S</span>
-                  </h1>
-                </motion.div>
+          <div className="container">
+            <div className="hero-layout">
+              {/* Left Content */}
+              <motion.div 
+                className="hero-content"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="hero-badge">
+                  <Sparkles size={16} />
+                  <span>Hello there, I'm</span>
+                </div>
                 
-                <motion.h2
-                  className="hero-title"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 }}
-                >
-                  Software Developer
-                  <span className="highlight"> & AI/ML Enthusiast</span>
-                </motion.h2>
+                {/* Fixed: No empty gradient box, just text */}
+                <h1 className="hero-title">
+                  <span className="hero-name">SWETHA S</span>
+                  <motion.span 
+                    className="typing-cursor"
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    |
+                  </motion.span>
+                </h1>
                 
-                <motion.div
-                  className="hero-description"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.4 }}
-                >
-                  <p>linkedin.com/in/swetha-s-192363285</p>
-                </motion.div>
+                <h2 className="hero-subtitle">
+                  <Code2 size={22} />
+                  <span>Software Developer</span>
+                  <span className="role-tag" style={{ background: `${theme.primary}15`, color: theme.primary }}>
+                    AI/ML Specialist
+                  </span>
+                </h2>
+                
+                <p className="hero-description">
+                  A passionate Software Developer with expertise in building scalable web applications 
+                  and AI-powered solutions. I combine technical skills with creative problem-solving 
+                  to deliver efficient, user-friendly software that makes an impact.
+                </p>
 
-                <motion.div 
-                  className="contact-info"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.5 }}
-                >
-                  <div className="contact-item">
-                    <Mail size={18} />
-                    <span>sweshinisankar@gmail.com</span>
-                  </div>
-                  <div className="contact-item">
-                    <Phone size={18} />
-                    <span>+91 7904978495</span>
-                  </div>
-                  <div className="contact-item">
-                    <MapPin size={18} />
-                    <span>Coimbatore, India</span>
-                  </div>
-                </motion.div>
+                {/* Contact Info */}
+                <div className="contact-grid">
+                  {[
+                    { icon: <Mail size={18} />, text: "sweshinisankar@gmail.com" },
+                    { icon: <Phone size={18} />, text: "+91 7904978495" },
+                    { icon: <MapPin size={18} />, text: "Coimbatore, Tamil Nadu" }
+                  ].map((contact, idx) => (
+                    <motion.div 
+                      key={idx}
+                      className="contact-chip"
+                      whileHover={{ x: 5 }}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.3 + idx * 0.1 }}
+                    >
+                      {contact.icon}
+                      <span>{contact.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
 
-                <motion.div 
-                  className="social-links"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                >
+                {/* Action Buttons */}
+                <div className="action-buttons">
                   <motion.a
                     href="https://www.linkedin.com/in/swetha-s-192363285"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="social-btn"
-                    whileHover={{ y: -3, scale: 1.05 }}
+                    className="action-btn primary"
+                    whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
+                    style={{ background: theme.primary }}
                   >
                     <Linkedin size={20} />
-                    LinkedIn
+                    <span>LinkedIn</span>
                   </motion.a>
                   <motion.a
                     href="https://github.com/Swethasankarganesh"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="social-btn github"
-                    whileHover={{ y: -3, scale: 1.05 }}
+                    className="action-btn secondary"
+                    whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
+                    style={{ borderColor: theme.secondary, color: theme.secondary }}
                   >
                     <Github size={20} />
-                    GitHub
+                    <span>GitHub</span>
                   </motion.a>
-                </motion.div>
-              </div>
+                  <motion.a
+                    href="mailto:sweshinisankar@gmail.com"
+                    className="action-btn accent"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                    style={{ borderColor: theme.accent, color: theme.accent }}
+                  >
+                    <Mail size={20} />
+                    <span>Email Me</span>
+                  </motion.a>
+                </div>
+              </motion.div>
 
+              {/* Right Stats - Fixed layout */}
               <motion.div 
-                className="hero-visual"
-                initial={{ opacity: 0, scale: 0.8 }}
+                className="hero-stats"
+                initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="floating-card">
-                  <div className="tech-stack-icons">
-                    <div className="tech-icon">
-                      <Code2 size={32} />
-                    </div>
-                    <div className="tech-icon">
-                      <Cpu size={32} />
-                    </div>
-                    <div className="tech-icon">
-                      <Database size={32} />
-                    </div>
-                    <div className="tech-icon">
-                      <Cloud size={32} />
-                    </div>
-                  </div>
-                  <div className="stats-grid">
-                    <div className="stat">
-                      <span className="stat-number">5+</span>
-                      <span className="stat-label">Projects</span>
-                    </div>
-                    <div className="stat">
-                      <span className="stat-number">3</span>
-                      <span className="stat-label">Internships</span>
-                    </div>
-                    <div className="stat">
-                      <span className="stat-number">8.2</span>
-                      <span className="stat-label">CGPA</span>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Professional Summary Section */}
-        <section id="summary" className="section">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="section-header">
-              <Briefcase className="section-icon" size={28} />
-              <h2 className="section-title">Professional Summary</h2>
-            </div>
-
-            <motion.div 
-              className="summary-card"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              whileHover={{ y: -5 }}
-            >
-              <p className="summary-text">
-                Technology-focused professional with expertise in Full Stack Development and emerging AI/ML technologies. 
-                Strong programming foundation in C, C++, Java, Python, and MySQL, combined with knowledge of software 
-                planning and generative AI. Recognized for analytical thinking, adaptability, and a results-oriented mindset. 
-                Passionate about building scalable, secure, and high-performance software solutions.
-              </p>
-            </motion.div>
-          </motion.div>
-        </section>
-
-        {/* Experience Section */}
-        <section id="experience" className="section">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="section-header">
-              <Briefcase className="section-icon" size={28} />
-              <h2 className="section-title">Work Experience</h2>
-            </div>
-
-            <div className="timeline">
-              {/* BSNL Internship */}
-              <motion.div
-                className="timeline-item"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className="timeline-marker">
-                  <div className="marker-circle"></div>
-                  <div className="timeline-line"></div>
-                </div>
-                <motion.div 
-                  className="experience-card"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="experience-header">
-                    <div>
-                      <div className="company-meta">
-                        <Wifi size={20} className="company-icon" />
-                        <div>
-                          <h3 className="company-name">BSNL Training Center</h3>
-                          <p className="role-title">Telecom Intern</p>
-                        </div>
+                {/* Achievement Cards */}
+                <div className="stats-grid">
+                  {achievements.map((stat, idx) => (
+                    <motion.div 
+                      key={idx}
+                      className="stat-card"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.4 + idx * 0.1 }}
+                      whileHover={{ y: -3 }}
+                      style={{ borderLeftColor: stat.color }}
+                    >
+                      <div className="stat-icon" style={{ color: stat.color }}>
+                        {stat.icon}
                       </div>
-                      <div className="experience-meta">
-                        <Calendar size={14} />
-                        <span>Two-week Internship</span>
+                      <div className="stat-content">
+                        <div className="stat-number">{stat.number}</div>
+                        <div className="stat-label">{stat.label}</div>
                       </div>
-                    </div>
-                  </div>
-                  
-                  <ul className="achievement-list">
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.1 }}
-                    >
-                      <ChevronRight size={16} />
-                      Completed a two-week internship at the BSNL Main Telephone Exchange with hands-on exposure to networking fundamentals and telecommunication protocols
-                    </motion.li>
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      <ChevronRight size={16} />
-                      Gained practical knowledge of network configurations, service enablement, and protocol-based customer connectivity
-                    </motion.li>
-                  </ul>
-                </motion.div>
-              </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
 
-              {/* Accenture Developer Internship */}
-              <motion.div
-                className="timeline-item"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-              >
-                <div className="timeline-marker">
-                  <div className="marker-circle"></div>
-                  <div className="timeline-line"></div>
-                </div>
-                <motion.div 
-                  className="experience-card"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="experience-header">
-                    <div>
-                      <div className="company-meta">
-                        <Users size={20} className="company-icon" />
-                        <div>
-                          <h3 className="company-name">Accenture</h3>
-                          <p className="role-title">Developer and Technology Intern (Virtual)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <ul className="achievement-list">
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                    >
-                      <ChevronRight size={16} />
-                      Completed a structured virtual internship focused on agile problem representation and solution development
-                    </motion.li>
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.4 }}
-                    >
-                      <ChevronRight size={16} />
-                      Developed and implemented Python-based solutions for defined problem statements using logical and structured programming approaches
-                    </motion.li>
-                  </ul>
-                </motion.div>
-              </motion.div>
-
-              {/* Accenture Data Analyst Internship */}
-              <motion.div
-                className="timeline-item"
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.6 }}
-              >
-                <div className="timeline-marker">
-                  <div className="marker-circle"></div>
-                </div>
-                <motion.div 
-                  className="experience-card"
-                  whileHover={{ y: -5 }}
-                >
-                  <div className="experience-header">
-                    <div>
-                      <div className="company-meta">
-                        <BarChart size={20} className="company-icon" />
-                        <div>
-                          <h3 className="company-name">Accenture</h3>
-                          <p className="role-title">Data Analyst and Visualization Job Simulation (Virtual)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <ul className="achievement-list">
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.5 }}
-                    >
-                      <ChevronRight size={16} />
-                      Participated in a virtual job simulation involving data organization, analysis, and visualization
-                    </motion.li>
-                    <motion.li 
-                      className="achievement-item"
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.6 }}
-                    >
-                      <ChevronRight size={16} />
-                      Interpreted datasets using charts and graphs to identify trends, patterns, and growth insights
-                    </motion.li>
-                  </ul>
-                </motion.div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="section">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="section-header">
-              <Rocket className="section-icon" size={28} />
-              <h2 className="section-title">Projects</h2>
-            </div>
-
-            <div className="projects-grid">
-              {/* Chatbot for Childhood Trauma Care */}
-              <motion.div
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="project-header">
-                  <div className="project-icon">
-                    <MessageCircle size={24} />
-                  </div>
-                  <h3 className="project-title">Chatbot for Childhood Trauma Care</h3>
-                </div>
-                
-                <p className="project-description">
-                  Developed a conversational AI-based chatbot to provide supportive interactions and basic guidance
-                </p>
-                
-                <div className="project-tech">
-                  <span className="tech-badge">AI</span>
-                  <span className="tech-badge">Python</span>
-                  <span className="tech-badge">NLP</span>
-                </div>
-              </motion.div>
-
-              {/* E-Commerce Application System */}
-              <motion.div
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="project-header">
-                  <div className="project-icon">
-                    <ShoppingBag size={24} />
-                  </div>
-                  <h3 className="project-title">E-Commerce Application System</h3>
-                </div>
-                
-                <p className="project-description">
-                  Built a fully functional e-commerce application with features including product listing, cart management, and order processing
-                </p>
-                
-                <div className="project-tech">
-                  <span className="tech-badge">Full Stack</span>
-                  <span className="tech-badge">JavaScript</span>
-                  <span className="tech-badge">MySQL</span>
-                </div>
-              </motion.div>
-
-              {/* Online Library Management System */}
-              <motion.div
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="project-header">
-                  <div className="project-icon">
-                    <Book size={24} />
-                  </div>
-                  <h3 className="project-title">Online Library Management System</h3>
-                </div>
-                
-                <p className="project-description">
-                  Designed and implemented a system to manage book inventory, users, and lending operations
-                </p>
-                
-                <div className="project-tech">
-                  <span className="tech-badge">Java</span>
-                  <span className="tech-badge">MySQL</span>
-                  <span className="tech-badge">OOP</span>
-                </div>
-              </motion.div>
-
-              {/* Chatbot for Skin Care Support */}
-              <motion.div
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="project-header">
-                  <div className="project-icon">
-                    <MessageCircle size={24} />
-                  </div>
-                  <h3 className="project-title">Chatbot for Skin Care Support</h3>
-                </div>
-                
-                <p className="project-description">
-                  Created an automated chatbot to deliver skincare-related information using conversational workflows
-                </p>
-                
-                <div className="project-tech">
-                  <span className="tech-badge">Python</span>
-                  <span className="tech-badge">Chatbot</span>
-                  <span className="tech-badge">Automation</span>
-                </div>
-              </motion.div>
-
-              {/* Platform Rebuild Projects */}
-              <motion.div
-                className="project-card"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.5 }}
-                whileHover={{ y: -8 }}
-              >
-                <div className="project-header">
-                  <div className="project-icon">
-                    <Monitor size={24} />
-                  </div>
-                  <h3 className="project-title">Platform Rebuild Projects</h3>
-                </div>
-                
-                <p className="project-description">
-                  Rebuilt platforms inspired by Udemy, TripAdvisor, and Apple Store, focusing on application structure, navigation flow, and functional replication
-                </p>
-                
-                <div className="project-tech">
-                  <span className="tech-badge">Web Dev</span>
-                  <span className="tech-badge">UI/UX</span>
-                  <span className="tech-badge">Frontend</span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="section">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="section-header">
-              <Code2 className="section-icon" size={28} />
-              <h2 className="section-title">Skills</h2>
-            </div>
-
-            <div className="skills-grid">
-              {Object.entries(skillsData).map(([category, skills], idx) => (
-                <motion.div
-                  key={category}
-                  className="skill-category-card"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  whileHover={{ y: -5 }}
-                >
-                  <h3 className="category-title">
-                    {category === 'technical' ? 'Programming Languages' : 
-                     category === 'web' ? 'Web Technologies' : 'Professional Skills'}
-                  </h3>
-                  <div className="skills-list">
-                    {skills.map((skill, i) => (
-                      <motion.div 
-                        key={skill.name}
-                        className="skill-item"
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.05 }}
+                {/* Tech Expertise */}
+                <div className="tech-expertise">
+                  <h3 className="expertise-title">Technical Expertise</h3>
+                  <div className="expertise-grid">
+                    {techCategories.map((category, idx) => (
+                      <motion.div
+                        key={idx}
+                        className="expertise-card"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.6 + idx * 0.1 }}
+                        whileHover={{ y: -3 }}
+                        style={{ borderColor: `${category.color}30` }}
                       >
-                        <div className="skill-info">
-                          <span className="skill-icon">{skill.icon}</span>
-                          <span className="skill-name">{skill.name}</span>
-                          <span className="skill-level">{skill.level}%</span>
+                        <div className="expertise-header" style={{ color: category.color }}>
+                          {category.icon}
+                          <span>{category.title}</span>
                         </div>
-                        <div className="skill-bar">
-                          <motion.div 
-                            className="skill-progress"
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${skill.level}%` }}
-                            transition={{ duration: 1, delay: i * 0.1 }}
-                          />
+                        <div className="expertise-skills">
+                          {category.skills.map((skill, sIdx) => (
+                            <span key={sIdx} className="skill-chip" style={{ background: `${category.color}15` }}>
+                              {skill}
+                            </span>
+                          ))}
                         </div>
                       </motion.div>
                     ))}
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* Experience Section */}
+        <section id="experience" className="section experience-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+            >
+              <div className="section-title-wrapper">
+                <motion.div
+                  className="section-icon-wrapper"
+                  style={{ background: theme.gradient }}
+                >
+                  <Briefcase size={24} />
+                </motion.div>
+                <div>
+                  <h2 className="section-title">Professional Experience</h2>
+                  <p className="section-subtitle">Internships & hands-on learning</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="experience-timeline">
+              {experiences.map((exp, idx) => (
+                <motion.div
+                  key={idx}
+                  className="timeline-item"
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                >
+                  <motion.div 
+                    className="timeline-marker"
+                    style={{ borderColor: exp.color }}
+                    animate={{ 
+                      scale: [1, 1.2, 1],
+                    }}
+                    transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 }}
+                  >
+                    {exp.icon}
+                  </motion.div>
+                  <motion.div 
+                    className="experience-card"
+                    whileHover={{ y: -3 }}
+                    style={{ borderLeftColor: exp.color }}
+                  >
+                    <div className="exp-header-content">
+                      <div className="exp-company-info">
+                        <h3>{exp.company}</h3>
+                        <span className="exp-duration">{exp.period}</span>
+                      </div>
+                      <span className="exp-role-badge" style={{ background: `${exp.color}15`, color: exp.color }}>
+                        {exp.role}
+                      </span>
+                    </div>
+                    <ul className="exp-points-list">
+                      {exp.points.map((point, pIdx) => (
+                        <motion.li 
+                          key={pIdx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: pIdx * 0.1 }}
+                        >
+                          <CheckCircle size={16} style={{ color: exp.color }} />
+                          <span>{point}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section - Improved with better descriptions */}
+        <section id="projects" className="section projects-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="section-title-wrapper">
+                <motion.div
+                  className="section-icon-wrapper"
+                  style={{ background: theme.gradient }}
+                >
+                  <Rocket size={24} />
+                </motion.div>
+                <div>
+                  <h2 className="section-title">Featured Projects</h2>
+                  <p className="section-subtitle">Practical applications showcasing technical skills</p>
+                </div>
+              </div>
+            </motion.div>
+
+            <div className="projects-grid">
+              {projects.map((project, idx) => (
+                <motion.div
+                  key={idx}
+                  className="project-card"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  style={{ borderTopColor: project.color }}
+                >
+                  <div className="project-header-content">
+                    <motion.div 
+                      className="project-icon-wrapper"
+                      style={{ background: `${project.color}15`, color: project.color }}
+                      animate={{ rotate: [0, 5, 0] }}
+                      transition={{ duration: 3, repeat: Infinity }}
+                    >
+                      {project.icon}
+                    </motion.div>
+                    <div>
+                      <h3 className="project-title-text">{project.title}</h3>
+                      <span className="project-category-label" style={{ color: project.color }}>
+                        {project.category}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <p className="project-description-text">
+                    {project.description}
+                  </p>
+                  
+                  <div className="project-features">
+                    <h4 className="features-title">Key Features:</h4>
+                    <ul className="features-list">
+                      {project.features.map((feature, fIdx) => (
+                        <motion.li 
+                          key={fIdx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: fIdx * 0.1 }}
+                        >
+                          <div className="feature-dot" style={{ backgroundColor: project.color }}></div>
+                          <span>{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="project-tech-stack">
+                    <div className="tech-tags">
+                      {project.tech.map((tech, tIdx) => (
+                        <motion.span
+                          key={tech}
+                          className="tech-tag-item"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.2, delay: tIdx * 0.1 }}
+                          style={{ 
+                            background: `${project.color}10`,
+                            borderColor: `${project.color}30`,
+                            color: project.color
+                          }}
+                        >
+                          {tech}
+                        </motion.span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Skills Section */}
+        <section id="skills" className="section skills-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="section-title-wrapper">
+                <motion.div
+                  className="section-icon-wrapper"
+                  style={{ background: theme.gradient }}
+                >
+                  <Code2 size={24} />
+                </motion.div>
+                <div>
+                  <h2 className="section-title">Technical Skills</h2>
+                  <p className="section-subtitle">Proficiency levels & expertise areas</p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Skill Bars */}
+            <div className="skill-bars-container">
+              {techSkills.map((skill, idx) => (
+                <motion.div
+                  key={skill.name}
+                  className="skill-bar-item"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: idx * 0.05 }}
+                >
+                  <div className="skill-info-row">
+                    <div className="skill-icon-wrapper">
+                      {skill.icon}
+                      <div className="skill-details">
+                        <span className="skill-name-text">{skill.name}</span>
+                        <span className="skill-category-label">{skill.category}</span>
+                      </div>
+                    </div>
+                    <span className="skill-percentage">{skill.level}%</span>
+                  </div>
+                  <div className="skill-progress-container">
+                    <motion.div 
+                      className="skill-progress-bar"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.level}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + idx * 0.1 }}
+                      style={{ background: theme.gradient }}
+                    />
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Additional Skills List */}
+            {/* Professional Competencies */}
             <motion.div 
-              className="additional-skills"
+              className="competencies-section"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
             >
-              <h3 className="additional-skills-title">Additional Skills</h3>
-              <div className="skill-tags">
-                <span className="skill-tag">Full Stack Development</span>
-                <span className="skill-tag">Machine Learning Fundamentals</span>
-                <span className="skill-tag">Prompt Engineering</span>
-                <span className="skill-tag">Generative AI</span>
-                <span className="skill-tag">Software Planning</span>
-                <span className="skill-tag">Problem-Solving</span>
-                <span className="skill-tag">Self-Motivated</span>
-                <span className="skill-tag">Team Player</span>
+              <h3 className="competencies-title">Professional Competencies</h3>
+              <div className="competencies-grid">
+                {[
+                  { skill: "Problem Solving", level: "Advanced", icon: <Target size={20} /> },
+                  { skill: "Team Collaboration", level: "Expert", icon: <Users size={20} /> },
+                  { skill: "Adaptability", level: "Advanced", icon: <TrendingUp size={20} /> },
+                  { skill: "Analytical Thinking", level: "Advanced", icon: <Brain size={20} /> },
+                  { skill: "Communication", level: "Expert", icon: <MessageCircle size={20} /> },
+                  { skill: "Project Management", level: "Intermediate", icon: <Briefcase size={20} /> },
+                  { skill: "Code Optimization", level: "Advanced", icon: <Zap size={20} /> },
+                  { skill: "Continuous Learning", level: "Expert", icon: <GraduationCap size={20} /> }
+                ].map((comp, idx) => (
+                  <motion.div
+                    key={comp.skill}
+                    className="competency-card-item"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.2, delay: idx * 0.03 }}
+                    whileHover={{ y: -2 }}
+                  >
+                    <div className="competency-icon" style={{ color: theme.primary }}>
+                      {comp.icon}
+                    </div>
+                    <div className="competency-details">
+                      <span className="competency-name">{comp.skill}</span>
+                      <span className="competency-level" style={{ color: theme.primary }}>
+                        {comp.level}
+                      </span>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
-          </motion.div>
+          </div>
         </section>
 
         {/* Education Section */}
-        <section id="education" className="section">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="section-header">
-              <GraduationCap className="section-icon" size={28} />
-              <h2 className="section-title">Education</h2>
-            </div>
+        <section id="education" className="section education-section">
+          <div className="container">
+            <motion.div
+              className="section-header"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="section-title-wrapper">
+                <motion.div
+                  className="section-icon-wrapper"
+                  style={{ background: theme.gradient }}
+                >
+                  <GraduationCap size={24} />
+                </motion.div>
+                <div>
+                  <h2 className="section-title">Education</h2>
+                  <p className="section-subtitle">Academic background & achievements</p>
+                </div>
+              </div>
+            </motion.div>
 
-            <div className="education-grid">
-              {/* Bachelor's Degree */}
+            <div className="education-cards-container">
               <motion.div 
-                className="education-card"
+                className="education-card-item"
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                transition={{ duration: 0.4 }}
+                whileHover={{ y: -3 }}
+                style={{ borderColor: `${theme.primary}30` }}
               >
-                <div className="education-header">
-                  <div className="degree-icon">🎓</div>
-                  <div>
-                    <h3 className="degree-name">Bachelor of Information Technology</h3>
+                <div className="education-card-header">
+                  <motion.div 
+                    className="education-icon"
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    style={{ background: theme.gradient }}
+                  >
+                    <GraduationCap size={26} />
+                  </motion.div>
+                  <div className="education-info">
+                    <h3>Bachelor of Information Technology</h3>
                     <p className="institution-name">Sri Ramakrishna Institute of Technology, Coimbatore</p>
                   </div>
                 </div>
-                
-                <div className="education-details">
-                  <div className="detail-item">
-                    <Award size={16} />
-                    <span>CGPA: 8.2</span>
+                <div className="education-stats">
+                  <div className="education-stat-item">
+                    <Award size={18} style={{ color: theme.success }} />
+                    <div>
+                      <span className="stat-name">CGPA</span>
+                      <span className="stat-value" style={{ color: theme.success }}>8.2/10.0</span>
+                    </div>
+                  </div>
+                  <div className="education-stat-item">
+                    <Calendar size={18} style={{ color: theme.primary }} />
+                    <div>
+                      <span className="stat-name">Duration</span>
+                      <span className="stat-value" style={{ color: theme.primary }}>2021 - Present</span>
+                    </div>
+                  </div>
+                  <div className="education-stat-item">
+                    <Sparkles size={18} style={{ color: theme.accent }} />
+                    <div>
+                      <span className="stat-name">Status</span>
+                      <span className="stat-value" style={{ color: theme.accent }}>Currently Pursuing</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
 
-              {/* Higher Secondary */}
               <motion.div 
-                className="education-card"
+                className="education-card-item"
                 initial={{ opacity: 0, x: 30 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                transition={{ duration: 0.4, delay: 0.1 }}
+                whileHover={{ y: -3 }}
+                style={{ borderColor: `${theme.secondary}30` }}
               >
-                <div className="education-header">
-                  <div className="degree-icon">📚</div>
-                  <div>
-                    <h3 className="degree-name">Higher Secondary Certificate (HSC) – 2021</h3>
-                    <p className="institution-name">Venkatalakshmi Matriculation Higher Secondary School</p>
-                    <p className="institution-name">Punitha Arockia Annai Higher Secondary School, Pudukkottai</p>
+                <div className="education-card-header">
+                  <motion.div 
+                    className="education-icon"
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                    style={{ background: theme.gradient }}
+                  >
+                    <Book size={26} />
+                  </motion.div>
+                  <div className="education-info">
+                    <h3>Higher Secondary Certificate (HSC)</h3>
+                    <p className="institution-name">Venkatalakshmi Matriculation & Punitha Arockia Annai HSS</p>
                   </div>
                 </div>
-                
-                <div className="education-details">
-                  <div className="detail-item">
-                    <Award size={16} />
-                    <span>Percentage: 87%</span>
+                <div className="education-stats">
+                  <div className="education-stat-item">
+                    <Award size={18} style={{ color: theme.success }} />
+                    <div>
+                      <span className="stat-name">Percentage</span>
+                      <span className="stat-value" style={{ color: theme.success }}>87%</span>
+                    </div>
+                  </div>
+                  <div className="education-stat-item">
+                    <Calendar size={18} style={{ color: theme.primary }} />
+                    <div>
+                      <span className="stat-name">Year</span>
+                      <span className="stat-value" style={{ color: theme.primary }}>2021</span>
+                    </div>
+                  </div>
+                  <div className="education-stat-item">
+                    <Target size={18} style={{ color: theme.accent }} />
+                    <div>
+                      <span className="stat-name">Stream</span>
+                      <span className="stat-value" style={{ color: theme.accent }}>Science with Mathematics</span>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <motion.footer 
-        className="footer"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        <div className="footer-content">
-          <div className="footer-main">
-            <div className="footer-brand">
-              <h3 className="footer-logo">SWETHA.S</h3>
-              <p className="footer-tagline">Software Developer & AI/ML Enthusiast</p>
-              <p className="footer-contact">sweshinisankar@gmail.com | +91 7904978495</p>
-            </div>
-            
-            <div className="footer-links">
-              <div className="link-group">
-                <h4>Quick Links</h4>
-                {["About", "Summary", "Experience", "Projects", "Skills", "Education"].map((item) => (
-                  <a 
-                    key={item}
-                    href={`#${item.toLowerCase()}`}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      scrollToSection(item.toLowerCase())
-                    }}
+      {/* Footer - Fixed gradient issue */}
+      <footer className="footer-section">
+        <div className="container">
+          <div className="footer-content-wrapper">
+            <div className="footer-main-content">
+              <div className="footer-info-section">
+                {/* Fixed: No gradient box, just regular text */}
+                <h3 className="footer-name">SWETHA S</h3>
+                <p className="footer-tagline-text">Software Developer & AI Enthusiast</p>
+                <div className="footer-contact-info">
+                  <div className="contact-info-item">
+                    <Mail size={18} />
+                    <span>sweshinisankar@gmail.com</span>
+                  </div>
+                  <div className="contact-info-item">
+                    <Phone size={18} />
+                    <span>+91 7904978495</span>
+                  </div>
+                  <div className="contact-info-item">
+                    <MapPin size={18} />
+                    <span>Coimbatore, Tamil Nadu</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="footer-links-section">
+                <div className="links-group">
+                  <h4>Quick Links</h4>
+                  {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
+                    <motion.a 
+                      key={item}
+                      href={`#${item.toLowerCase()}`}
+                      onClick={(e) => {
+                        e.preventDefault()
+                        scrollToSection(item.toLowerCase())
+                      }}
+                      whileHover={{ x: 5, color: theme.primary }}
+                    >
+                      {item}
+                    </motion.a>
+                  ))}
+                </div>
+                <div className="links-group">
+                  <h4>Connect</h4>
+                  <motion.a 
+                    href="https://linkedin.com/in/swetha-s-192363285"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ x: 5, color: theme.primary }}
                   >
-                    {item}
-                  </a>
+                    LinkedIn
+                  </motion.a>
+                  <motion.a 
+                    href="https://github.com/Swethasankarganesh"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ x: 5, color: theme.primary }}
+                  >
+                    GitHub
+                  </motion.a>
+                  <motion.a 
+                    href="mailto:sweshinisankar@gmail.com"
+                    whileHover={{ x: 5, color: theme.primary }}
+                  >
+                    Email
+                  </motion.a>
+                </div>
+              </div>
+            </div>
+
+            <div className="footer-bottom-section">
+              <motion.p
+                animate={{ opacity: [0.7, 1, 0.7] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                © {new Date().getFullYear()} SWETHA S. All rights reserved.
+              </motion.p>
+              <div className="footer-social-links">
+                {[
+                  { icon: <Linkedin size={20} />, href: "https://linkedin.com/in/swetha-s-192363285" },
+                  { icon: <Github size={20} />, href: "https://github.com/Swethasankarganesh" },
+                  { icon: <Mail size={20} />, href: "mailto:sweshinisankar@gmail.com" }
+                ].map((social, idx) => (
+                  <motion.a
+                    key={idx}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ y: -3, scale: 1.1 }}
+                    style={{ color: theme.primary }}
+                  >
+                    {social.icon}
+                  </motion.a>
                 ))}
               </div>
-              
-              <div className="link-group">
-                <h4>Connect</h4>
-                <a href="mailto:sweshinisankar@gmail.com">Email</a>
-                <a href="https://linkedin.com/in/swetha-s-192363285">LinkedIn</a>
-                <a href="https://github.com/Swetha-star">GitHub</a>
-              </div>
             </div>
           </div>
-          
-          <div className="footer-bottom">
-            <p>© {new Date().getFullYear()} SWETHA.S. All rights reserved.</p>
-            <p className="footer-note">
-              Built with React, Framer Motion, and modern web technologies
-            </p>
-          </div>
         </div>
-      </motion.footer>
+      </footer>
 
-      {/* Back to Top Button */}
+      {/* Back to Top */}
       <AnimatePresence>
-        {scrollY > 500 && (
+        {isScrolled && (
           <motion.button
-            className="back-to-top"
+            className="back-to-top-btn"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}
             whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            style={{ background: theme.gradient }}
           >
-            ↑
+            <ArrowUp size={22} />
           </motion.button>
         )}
       </AnimatePresence>
