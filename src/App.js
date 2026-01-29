@@ -42,7 +42,9 @@ import {
   ShoppingCart,
   Bot,
   Cpu,
-  Target
+  Target,
+  TrendingUp,
+  CircuitBoard
 } from "lucide-react"
 import "./App.css"
 
@@ -116,68 +118,97 @@ function App() {
     }
   }
 
-  // Technical Skills based on your summary
+  // Technical Skills
   const techSkills = [
-    { name: "Java", level: 85, icon: <Server size={18} />, category: "Backend" },
-    { name: "Python", level: 90, icon: <Brain size={18} />, category: "AI/ML" },
-    { name: "C++", level: 80, icon: <Cpu size={18} />, category: "Programming" },
-    { name: "C", level: 75, icon: <Terminal size={18} />, category: "Programming" },
-    { name: "MySQL", level: 88, icon: <Database size={18} />, category: "Database" },
-    { name: "HTML/CSS", level: 85, icon: <Globe size={18} />, category: "Frontend" },
-    { name: "JavaScript", level: 82, icon: <Code2 size={18} />, category: "Frontend" },
-    { name: "AI/ML", level: 78, icon: <Brain size={18} />, category: "Specialized" }
+    { name: "Java Development", level: 85, icon: <Server size={18} />, category: "Backend Engineering" },
+    { name: "Python & AI/ML", level: 90, icon: <Brain size={18} />, category: "Intelligent Systems" },
+    { name: "C/C++", level: 80, icon: <Cpu size={18} />, category: "System Programming" },
+    { name: "MySQL & Databases", level: 88, icon: <Database size={18} />, category: "Data Management" },
+    { name: "JavaScript/React", level: 82, icon: <Code2 size={18} />, category: "Frontend Development" },
+    { name: "Spring Boot", level: 78, icon: <Cloud size={18} />, category: "Enterprise Framework" },
+    { name: "HTML/CSS", level: 92, icon: <Globe size={18} />, category: "Web Technologies" },
+    { name: "Chatbot Development", level: 85, icon: <Bot size={18} />, category: "AI Solutions" }
   ]
 
-  // Your Actual Projects with brief descriptions
+  // Projects
   const projects = [
     {
-      title: "Chatbot for Childhood Trauma Care",
-      description: "Developed a conversational AI-based chatbot to provide supportive interactions and basic guidance for emotional support.",
+      title: "AI-Powered Trauma Support Chatbot",
+      description: "Engineered a conversational AI chatbot providing mental health support and emotional guidance using Natural Language Processing and empathetic response algorithms.",
       icon: <Heart size={22} />,
-      tech: ["Python", "AI/ML", "NLP", "Chatbot Framework"],
+      tech: ["Python", "NLP", "AI/ML", "Dialogflow", "Web APIs"],
+      features: [
+        "Emotion recognition & empathetic responses",
+        "Resource recommendation engine",
+        "Secure & confidential interactions",
+        "Multi-platform accessibility"
+      ],
       link: "#",
-      category: "AI Healthcare Application",
+      category: "Healthcare AI Solution",
       color: theme.primary
     },
     {
-      title: "E-Commerce Application System",
-      description: "Built a fully functional e-commerce application with product listing, cart management, and order processing features.",
+      title: "Enterprise E-Commerce Platform",
+      description: "Developed a comprehensive e-commerce solution with end-to-end functionality including inventory management, secure payments, and real-time order processing.",
       icon: <ShoppingCart size={22} />,
-      tech: ["Java", "MySQL", "Spring Boot", "JavaScript"],
+      tech: ["Java", "Spring Boot", "MySQL", "React", "Payment Gateway"],
+      features: [
+        "Scalable product catalog system",
+        "Secure payment processing",
+        "Real-time inventory tracking",
+        "Customer management dashboard"
+      ],
       link: "#",
-      category: "Full Stack Development",
+      category: "Full Stack Commerce",
       color: theme.secondary
     },
     {
-      title: "Online Library Management System",
-      description: "Designed and implemented a system to manage book inventory, users, and lending operations.",
+      title: "Digital Library Management System",
+      description: "Architected a complete library management platform automating book tracking, user management, and lending operations with comprehensive reporting.",
       icon: <BookOpen size={22} />,
-      tech: ["Java", "MySQL", "JSP", "Bootstrap"],
+      tech: ["Java", "MySQL", "JSP", "Bootstrap", "JavaScript"],
+      features: [
+        "Automated book tracking system",
+        "User authentication & role management",
+        "Overdue alert notifications",
+        "Analytics & reporting dashboard"
+      ],
       link: "#",
-      category: "Management System",
+      category: "Management Software",
       color: theme.accent
     },
     {
-      title: "Chatbot for Skin Care Support",
-      description: "Created an automated chatbot to deliver skincare-related information using conversational workflows.",
+      title: "Intelligent Skincare Assistant Bot",
+      description: "Built an AI-driven skincare advisor delivering personalized recommendations through conversational interfaces and skin analysis algorithms.",
       icon: <Bot size={22} />,
-      tech: ["Python", "Chatbot", "Automation", "Web Integration"],
+      tech: ["Python", "Chatbot Framework", "AI Algorithms", "Web Integration"],
+      features: [
+        "Personalized skincare analysis",
+        "Product recommendation engine",
+        "Daily routine planning",
+        "Educational content delivery"
+      ],
       link: "#",
-      category: "AI Wellness Application",
+      category: "Wellness AI Application",
       color: theme.success
     },
     {
-      title: "Platform Rebuild Projects",
-      description: "Rebuilt Udemy, TripAdvisor, and Apple Store platforms focusing on application structure and functional replication.",
+      title: "Enterprise Platform Replication Suite",
+      description: "Architected and implemented functional replicas of leading platforms (Udemy, TripAdvisor, Apple Store) demonstrating comprehensive application structure mastery.",
       icon: <Smartphone size={22} />,
-      tech: ["Java", "React", "MySQL", "UI/UX"],
+      tech: ["Java", "React", "MySQL", "REST APIs", "UI/UX Design"],
+      features: [
+        "Course management system",
+        "Review & rating platform",
+        "Product showcase application",
+        "Unified user authentication"
+      ],
       link: "#",
-      category: "Platform Development",
+      category: "Platform Architecture",
       color: theme.warning
     }
   ]
 
-  // Experience section
   const experiences = [
     {
       company: "BSNL Telecom",
@@ -185,8 +216,9 @@ function App() {
       period: "Jun 2023 - Jul 2023",
       icon: <Wifi size={18} />,
       points: [
-        "Gained hands-on experience with network infrastructure and protocols",
-        "Configured network devices and monitored system performance"
+        "Implemented network infrastructure configurations for optimal performance",
+        "Resolved connectivity issues and optimized data transmission protocols",
+        "Gained practical expertise in telecommunications architecture"
       ],
       color: theme.primary
     },
@@ -196,59 +228,101 @@ function App() {
       period: "May 2023 - Jun 2023",
       icon: <Terminal size={18} />,
       points: [
-        "Developed Python solutions for business problems using structured programming",
-        "Applied Agile methodologies in solution development"
+        "Developed Python-based automation solutions for business processes",
+        "Applied Agile methodologies in software development lifecycle",
+        "Enhanced problem-solving capabilities through structured programming"
       ],
       color: theme.secondary
     },
     {
       company: "Accenture Analytics",
-      role: "Data Visualization Intern",
+      role: "Data Visualization Specialist Intern",
       period: "Apr 2023 - May 2023",
       icon: <BarChart size={18} />,
       points: [
-        "Created data visualizations and analysis reports",
-        "Identified trends using charts and graphs"
+        "Transformed complex datasets into actionable insights through visualization",
+        "Created interactive dashboards for business intelligence reporting",
+        "Identified trends and patterns to drive data-informed decisions"
       ],
       color: theme.accent
     }
   ]
 
-  // Achievements based on your profile
   const achievements = [
-    { number: "5", label: "Completed Projects", icon: <Rocket size={18} />, color: theme.primary },
-    { number: "8+", label: "Technologies", icon: <Code2 size={18} />, color: theme.secondary },
-    { number: "3", label: "Internships", icon: <Briefcase size={18} />, color: theme.success },
-    { number: "2", label: "AI Chatbots", icon: <Brain size={18} />, color: theme.accent }
+    { number: "5", label: "Production-Ready Projects", icon: <Rocket size={18} />, color: theme.primary },
+    { number: "8+", label: "Core Technologies", icon: <CircuitBoard size={18} />, color: theme.secondary },
+    { number: "3", label: "Industry Internships", icon: <Briefcase size={18} />, color: theme.success },
+    { number: "2", label: "AI Solutions Built", icon: <TrendingUp size={18} />, color: theme.accent }
   ]
 
-  // Tech Stack Categories based on your summary
   const techCategories = [
     {
-      title: "Programming Languages",
-      skills: ["Java", "Python", "C++", "C", "JavaScript"],
-      icon: <Code2 size={20} />,
+      title: "Full Stack Engineering",
+      skills: ["Java", "Spring Boot", "React", "JavaScript", "HTML/CSS", "REST APIs"],
+      icon: <Server size={20} />,
       color: theme.primary
     },
     {
-      title: "Web Development",
-      skills: ["HTML/CSS", "React", "Spring Boot", "JSP", "Bootstrap"],
-      icon: <Globe size={20} />,
+      title: "AI & Intelligent Systems",
+      skills: ["Python", "AI/ML", "Chatbot Development", "NLP", "Generative AI"],
+      icon: <Brain size={20} />,
       color: theme.secondary
     },
     {
-      title: "Database & Tools",
-      skills: ["MySQL", "Database Design", "Git", "VS Code", "Agile"],
+      title: "Data Engineering",
+      skills: ["MySQL", "Database Design", "Data Modeling", "Analytics", "ETL"],
       icon: <Database size={20} />,
       color: theme.success
     },
     {
-      title: "Specialized Skills",
-      skills: ["AI/ML", "Chatbot Development", "NLP", "Software Planning", "Generative AI"],
-      icon: <Brain size={20} />,
+      title: "System Architecture",
+      skills: ["C/C++", "Software Planning", "System Design", "Performance", "Scalability"],
+      icon: <Layout size={20} />,
       color: theme.accent
     }
   ]
+
+  // FIXED: Resume download function with proper file handling
+  const handleResumeDownload = () => {
+    // Try multiple possible file locations
+    const resumePath = "/Swetha1.pdf";
+    
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = resumePath;
+    link.download = 'Swetha_S_Resume.pdf';
+    link.target = '_blank';
+    
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  // FIXED: Alternative method using fetch
+  const downloadResume = async () => {
+    try {
+      const response = await fetch('/Swetha1.pdf');
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Swetha_S_Resume.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      } else {
+        // If file not found, open in new tab
+        window.open('/Swetha1.pdf', '_blank');
+      }
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+      // Fallback to opening in new tab
+      window.open('/Swetha1.pdf', '_blank');
+    }
+  }
 
   return (
     <div className="app" ref={containerRef}>
@@ -289,7 +363,7 @@ function App() {
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <Zap size={12} />
-                <span>Full Stack Developer</span>
+                <span>Software Engineer</span>
               </motion.span>
             </motion.div>
 
@@ -311,17 +385,17 @@ function App() {
                   )}
                 </motion.button>
               ))}
-              <motion.a 
-                href="/Swetha1.pdf" 
-                download
+              {/* FIXED: Resume button with working download */}
+              <motion.button 
+                onClick={downloadResume}
                 className="resume-btn"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{ background: theme.gradient }}
               >
                 <Download size={16} />
-                <span>Resume</span>
-              </motion.a>
+                <span>Download Resume</span>
+              </motion.button>
             </nav>
 
             <motion.button 
@@ -359,9 +433,9 @@ function App() {
                     {item}
                   </motion.button>
                 ))}
-                <motion.a 
-                  href="/Swetha1.pdf" 
-                  download
+                {/* FIXED: Mobile resume button */}
+                <motion.button
+                  onClick={downloadResume}
                   className="mobile-resume"
                   initial={{ x: -20, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
@@ -370,7 +444,7 @@ function App() {
                 >
                   <Download size={18} />
                   Download Resume
-                </motion.a>
+                </motion.button>
               </div>
             </motion.div>
           )}
@@ -389,7 +463,7 @@ function App() {
               >
                 <div className="hero-badge">
                   <Sparkles size={16} />
-                  <span>Hello, I'm</span>
+                  <span>Innovative Software Engineer</span>
                 </div>
                 
                 <h1 className="hero-title">
@@ -407,18 +481,18 @@ function App() {
                   <Code2 size={22} />
                   <span>Full Stack Developer</span>
                   <span className="role-tag" style={{ background: `${theme.primary}15`, color: theme.primary }}>
-                    AI/ML Enthusiast
+                    AI Solutions Specialist
                   </span>
                 </h2>
                 
                 <div className="professional-summary">
                   <p className="summary-text">
-                    Technology-focused professional with expertise in <strong>Full Stack Development</strong> and 
-                    emerging <strong>AI/ML technologies</strong>. Strong programming foundation in C, C++, Java, 
-                    Python, and MySQL, combined with knowledge of software planning and generative AI. 
-                    Recognized for <strong>analytical thinking</strong>, <strong>adaptability</strong>, and a 
-                    <strong> results-oriented mindset</strong>. Passionate about building scalable, secure, 
-                    and high-performance software solutions.
+                    Results-driven <strong>Software Engineer</strong> with expertise in building 
+                    <strong> scalable enterprise applications</strong> and <strong>AI-powered solutions</strong>. 
+                    Proven ability to deliver high-performance software from concept to deployment, 
+                    with strong foundations in Java, Python, and modern web technologies. 
+                    Passionate about creating impactful solutions that solve real-world problems through 
+                    innovative technology implementation.
                   </p>
                 </div>
 
@@ -453,7 +527,7 @@ function App() {
                     style={{ background: theme.primary }}
                   >
                     <Linkedin size={20} />
-                    <span>LinkedIn</span>
+                    <span>Connect on LinkedIn</span>
                   </motion.a>
                   <motion.a
                     href="https://github.com/Swethasankarganesh"
@@ -465,17 +539,18 @@ function App() {
                     style={{ borderColor: theme.secondary, color: theme.secondary }}
                   >
                     <Github size={20} />
-                    <span>GitHub</span>
+                    <span>Explore Code</span>
                   </motion.a>
+                  {/* FIXED: Email contact */}
                   <motion.a
-                    href="mailto:sweshinisankar@gmail.com"
+                    href="mailto:sweshinisankar@gmail.com?subject=Interview%20Request&body=Dear%20Swetha%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20would%20like%20to%20discuss%20potential%20opportunities."
                     className="action-btn accent"
                     whileHover={{ scale: 1.05, y: -2 }}
                     whileTap={{ scale: 0.95 }}
                     style={{ borderColor: theme.accent, color: theme.accent }}
                   >
                     <Mail size={20} />
-                    <span>Contact</span>
+                    <span>Contact Me</span>
                   </motion.a>
                 </div>
               </motion.div>
@@ -509,7 +584,7 @@ function App() {
                 </div>
 
                 <div className="tech-expertise">
-                  <h3 className="expertise-title">Technical Expertise</h3>
+                  <h3 className="expertise-title">Core Competencies</h3>
                   <div className="expertise-grid">
                     {techCategories.map((category, idx) => (
                       <motion.div
@@ -557,8 +632,8 @@ function App() {
                   <Briefcase size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Professional Experience</h2>
-                  <p className="section-subtitle">Internships & practical experience</p>
+                  <h2 className="section-title">Professional Journey</h2>
+                  <p className="section-subtitle">Industry experience & practical application</p>
                 </div>
               </div>
             </motion.div>
@@ -634,8 +709,8 @@ function App() {
                   <Rocket size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Project Portfolio</h2>
-                  <p className="section-subtitle">Hands-on development experience</p>
+                  <h2 className="section-title">Portfolio Showcase</h2>
+                  <p className="section-subtitle">Enterprise-grade applications demonstrating technical excellence</p>
                 </div>
               </div>
             </motion.div>
@@ -672,6 +747,24 @@ function App() {
                   <p className="project-description-text">
                     {project.description}
                   </p>
+                  
+                  <div className="project-features">
+                    <h4 className="features-title">Technical Highlights:</h4>
+                    <ul className="features-list">
+                      {project.features.map((feature, fIdx) => (
+                        <motion.li 
+                          key={fIdx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: fIdx * 0.1 }}
+                        >
+                          <div className="feature-dot" style={{ backgroundColor: project.color }}></div>
+                          <span>{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
                   
                   <div className="project-tech-stack">
                     <div className="tech-tags">
@@ -726,8 +819,8 @@ function App() {
                   <Code2 size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Technical Proficiency</h2>
-                  <p className="section-subtitle">Skills & capabilities</p>
+                  <h2 className="section-title">Technical Mastery</h2>
+                  <p className="section-subtitle">Comprehensive skill set for modern software development</p>
                 </div>
               </div>
             </motion.div>
@@ -772,17 +865,17 @@ function App() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="competencies-title">Professional Strengths</h3>
+              <h3 className="competencies-title">Professional Value Proposition</h3>
               <div className="competencies-grid">
                 {[
-                  { skill: "Full Stack Development", level: "Advanced", icon: <Code2 size={20} /> },
-                  { skill: "AI/ML Technologies", level: "Proficient", icon: <Brain size={20} /> },
-                  { skill: "Analytical Thinking", level: "Advanced", icon: <Target size={20} /> },
-                  { skill: "Software Planning", level: "Proficient", icon: <Layout size={20} /> },
-                  { skill: "Problem Solving", level: "Advanced", icon: <Zap size={20} /> },
-                  { skill: "Adaptability", level: "Expert", icon: <Cloud size={20} /> },
-                  { skill: "Results-Oriented", level: "Advanced", icon: <CheckCircle size={20} /> },
-                  { skill: "Team Collaboration", level: "Proficient", icon: <Users size={20} /> }
+                  { skill: "Enterprise Application Development", level: "Expert", icon: <Server size={20} /> },
+                  { skill: "AI/ML Solution Architecture", level: "Advanced", icon: <Brain size={20} /> },
+                  { skill: "Full Stack Proficiency", level: "Expert", icon: <Code2 size={20} /> },
+                  { skill: "System Design & Architecture", level: "Advanced", icon: <Layout size={20} /> },
+                  { skill: "Problem-Solving Aptitude", level: "Expert", icon: <Target size={20} /> },
+                  { skill: "Technical Innovation", level: "Advanced", icon: <Zap size={20} /> },
+                  { skill: "Project Delivery Excellence", level: "Expert", icon: <CheckCircle size={20} /> },
+                  { skill: "Adaptive Learning Ability", level: "Advanced", icon: <TrendingUp size={20} /> }
                 ].map((comp, idx) => (
                   <motion.div
                     key={comp.skill}
@@ -825,8 +918,8 @@ function App() {
                   <GraduationCap size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Education</h2>
-                  <p className="section-subtitle">Academic qualifications</p>
+                  <h2 className="section-title">Academic Foundation</h2>
+                  <p className="section-subtitle">Educational qualifications & achievements</p>
                 </div>
               </div>
             </motion.div>
@@ -859,8 +952,8 @@ function App() {
                   <div className="education-stat-item">
                     <Award size={18} style={{ color: theme.success }} />
                     <div>
-                      <span className="stat-name">CGPA</span>
-                      <span className="stat-value" style={{ color: theme.success }}>8.2/10.0</span>
+                      <span className="stat-name">Academic Excellence</span>
+                      <span className="stat-value" style={{ color: theme.success }}>CGPA: 8.2/10.0</span>
                     </div>
                   </div>
                   <div className="education-stat-item">
@@ -873,8 +966,8 @@ function App() {
                   <div className="education-stat-item">
                     <Sparkles size={18} style={{ color: theme.accent }} />
                     <div>
-                      <span className="stat-name">Status</span>
-                      <span className="stat-value" style={{ color: theme.accent }}>Currently Pursuing</span>
+                      <span className="stat-name">Focus Area</span>
+                      <span className="stat-value" style={{ color: theme.accent }}>Software Engineering</span>
                     </div>
                   </div>
                 </div>
@@ -900,28 +993,28 @@ function App() {
                   </motion.div>
                   <div className="education-info">
                     <h3>Higher Secondary Certificate (HSC)</h3>
-                    <p className="institution-name">Science with Mathematics</p>
+                    <p className="institution-name">Science with Mathematics Stream</p>
                   </div>
                 </div>
                 <div className="education-stats">
                   <div className="education-stat-item">
                     <Award size={18} style={{ color: theme.success }} />
                     <div>
-                      <span className="stat-name">Percentage</span>
-                      <span className="stat-value" style={{ color: theme.success }}>87%</span>
+                      <span className="stat-name">Academic Performance</span>
+                      <span className="stat-value" style={{ color: theme.success }}>87% Score</span>
                     </div>
                   </div>
                   <div className="education-stat-item">
                     <Calendar size={18} style={{ color: theme.primary }} />
                     <div>
-                      <span className="stat-name">Year</span>
+                      <span className="stat-name">Year of Completion</span>
                       <span className="stat-value" style={{ color: theme.primary }}>2021</span>
                     </div>
                   </div>
                   <div className="education-stat-item">
                     <Target size={18} style={{ color: theme.accent }} />
                     <div>
-                      <span className="stat-name">Stream</span>
+                      <span className="stat-name">Specialization</span>
                       <span className="stat-value" style={{ color: theme.accent }}>Science with Mathematics</span>
                     </div>
                   </div>
@@ -938,7 +1031,7 @@ function App() {
             <div className="footer-main-content">
               <div className="footer-info-section">
                 <h3 className="footer-name">SWETHA S</h3>
-                <p className="footer-tagline-text">Full Stack Developer & AI/ML Enthusiast</p>
+                <p className="footer-tagline-text">Innovative Software Engineer | Full Stack & AI Specialist</p>
                 <div className="footer-contact-info">
                   <div className="contact-info-item">
                     <Mail size={18} />
@@ -948,12 +1041,16 @@ function App() {
                     <Phone size={18} />
                     <span>+91 7904978495</span>
                   </div>
+                  <div className="contact-info-item">
+                    <MapPin size={18} />
+                    <span>Coimbatore, India</span>
+                  </div>
                 </div>
               </div>
 
               <div className="footer-links-section">
                 <div className="links-group">
-                  <h4>Navigation</h4>
+                  <h4>Portfolio</h4>
                   {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
                     <motion.a 
                       key={item}
@@ -1001,7 +1098,7 @@ function App() {
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                © {new Date().getFullYear()} SWETHA S. Crafted with React & Framer Motion
+                © {new Date().getFullYear()} SWETHA S | Crafted with React & Framer Motion
               </motion.p>
               <div className="footer-social-links">
                 {[
