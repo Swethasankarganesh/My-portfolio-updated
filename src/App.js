@@ -31,6 +31,11 @@ import {
   Target,
   TrendingUp,
   Globe,
+  Cpu,
+Code2,
+Rocket,
+ChevronRight,
+GraduationCap,
 } from "lucide-react"
 import "./App.css"
 
