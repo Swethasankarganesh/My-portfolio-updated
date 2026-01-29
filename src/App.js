@@ -8,11 +8,6 @@ import {
   Linkedin, 
   Github, 
   Briefcase, 
-  Rocket, 
-  GraduationCap,
-  Code2,
-  ExternalLink,
-  ChevronRight,
   Award,
   Calendar,
   MapPin,
@@ -32,15 +27,10 @@ import {
   Database,
   Layout,
   Command,
-  GitBranch,
-  Cpu,
-  Shield,
   Users,
   Target,
   TrendingUp,
-  Cloud,
   Globe,
-  Workflow
 } from "lucide-react"
 import "./App.css"
 
