@@ -8,6 +8,11 @@ import {
   Linkedin, 
   Github, 
   Briefcase, 
+  Rocket, 
+  GraduationCap,
+  Code2,
+  ExternalLink,
+  ChevronRight,
   Award,
   Calendar,
   MapPin,
@@ -28,14 +33,16 @@ import {
   Layout,
   Command,
   Users,
-  Target,
-  TrendingUp,
+  Shield,
+  Cloud,
+  Heart,
+  Smartphone,
   Globe,
+  BookOpen,
+  ShoppingCart,
+  Bot,
   Cpu,
-Code2,
-Rocket,
-ChevronRight,
-GraduationCap,
+  Target
 } from "lucide-react"
 import "./App.css"
 
@@ -45,16 +52,15 @@ function App() {
   const [isScrolled, setIsScrolled] = useState(false)
   const containerRef = useRef(null)
   
-  // Refined color theme
   const theme = {
-    primary: "#3b82f6",    // Blue
-    secondary: "#8b5cf6",  // Purple
-    accent: "#06b6d4",     // Cyan
-    dark: "#0f172a",       // Navy
-    light: "#f8fafc",      // Light
-    card: "#1e293b",       // Slate
-    success: "#10b981",    // Emerald
-    warning: "#f59e0b",    // Amber
+    primary: "#3b82f6",
+    secondary: "#8b5cf6",
+    accent: "#06b6d4",
+    dark: "#0f172a",
+    light: "#f8fafc",
+    card: "#1e293b",
+    success: "#10b981",
+    warning: "#f59e0b",
     gradient: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
     gradientFull: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #06b6d4 100%)"
   }
@@ -110,79 +116,64 @@ function App() {
     }
   }
 
-  // Technical Skills with proper icons
+  // Technical Skills based on your summary
   const techSkills = [
-    { name: "Java", level: 85, icon: <Cpu size={18} />, category: "Backend" },
+    { name: "Java", level: 85, icon: <Server size={18} />, category: "Backend" },
     { name: "Python", level: 90, icon: <Brain size={18} />, category: "AI/ML" },
-    { name: "JavaScript", level: 82, icon: <Code2 size={18} />, category: "Frontend" },
-    { name: "React", level: 78, icon: <Layout size={18} />, category: "Frontend" },
+    { name: "C++", level: 80, icon: <Cpu size={18} />, category: "Programming" },
+    { name: "C", level: 75, icon: <Terminal size={18} />, category: "Programming" },
     { name: "MySQL", level: 88, icon: <Database size={18} />, category: "Database" },
-    { name: "HTML/CSS", level: 92, icon: <Globe size={18} />, category: "Frontend" },
-    { name: "C++", level: 80, icon: <Terminal size={18} />, category: "Backend" },
-    { name: "Spring Boot", level: 75, icon: <Server size={18} />, category: "Backend" }
+    { name: "HTML/CSS", level: 85, icon: <Globe size={18} />, category: "Frontend" },
+    { name: "JavaScript", level: 82, icon: <Code2 size={18} />, category: "Frontend" },
+    { name: "AI/ML", level: 78, icon: <Brain size={18} />, category: "Specialized" }
   ]
 
-  // Projects with clear, detailed descriptions
+  // Your Actual Projects with brief descriptions
   const projects = [
     {
-      title: "Mental Health Support Chatbot",
-      description: "An AI-powered chatbot designed to provide immediate emotional support and coping strategies. The system uses Natural Language Processing to understand user emotions and respond empathetically while maintaining ethical boundaries.",
-      icon: <Brain size={22} />,
-      tech: ["Python", "TensorFlow", "NLP", "React", "Node.js"],
-      features: [
-        "Emotion recognition from text input",
-        "Context-aware responses",
-        "Privacy-focused design",
-        "Resource recommendation system"
-      ],
+      title: "Chatbot for Childhood Trauma Care",
+      description: "Developed a conversational AI-based chatbot to provide supportive interactions and basic guidance for emotional support.",
+      icon: <Heart size={22} />,
+      tech: ["Python", "AI/ML", "NLP", "Chatbot Framework"],
       link: "#",
-      category: "AI/ML Application",
+      category: "AI Healthcare Application",
       color: theme.primary
     },
     {
-      title: "E-Commerce Platform",
-      description: "A full-featured online shopping platform with user authentication, product catalog, shopping cart, payment integration, and admin dashboard. Built with scalable architecture for handling multiple concurrent users.",
-      icon: <ShoppingBag size={22} />,
-      tech: ["Java", "Spring Boot", "MySQL", "React", "Redux"],
-      features: [
-        "Secure user authentication",
-        "Real-time inventory management",
-        "Payment gateway integration",
-        "Order tracking system"
-      ],
+      title: "E-Commerce Application System",
+      description: "Built a fully functional e-commerce application with product listing, cart management, and order processing features.",
+      icon: <ShoppingCart size={22} />,
+      tech: ["Java", "MySQL", "Spring Boot", "JavaScript"],
       link: "#",
-      category: "Full Stack Web App",
+      category: "Full Stack Development",
       color: theme.secondary
     },
     {
-      title: "Digital Library Management",
-      description: "A comprehensive library management system enabling digital book tracking, reservations, and member management. Includes analytics dashboard for librarians to monitor borrowing patterns and popular genres.",
-      icon: <Book size={22} />,
-      tech: ["Java", "MySQL", "JSP", "Bootstrap", "JavaScript"],
-      features: [
-        "Automated book tracking",
-        "Overdue fine calculation",
-        "Member activity reports",
-        "Multi-user access control"
-      ],
+      title: "Online Library Management System",
+      description: "Designed and implemented a system to manage book inventory, users, and lending operations.",
+      icon: <BookOpen size={22} />,
+      tech: ["Java", "MySQL", "JSP", "Bootstrap"],
       link: "#",
       category: "Management System",
       color: theme.accent
     },
     {
-      title: "AI Skincare Assistant",
-      description: "Intelligent skincare recommendation system that analyzes skin types and conditions to provide personalized skincare routines and product suggestions using machine learning algorithms.",
-      icon: <MessageCircle size={22} />,
-      tech: ["Python", "Flask", "OpenAI API", "JavaScript", "CSS"],
-      features: [
-        "Skin type classification",
-        "Personalized routine generation",
-        "Ingredient analysis",
-        "Progress tracking"
-      ],
+      title: "Chatbot for Skin Care Support",
+      description: "Created an automated chatbot to deliver skincare-related information using conversational workflows.",
+      icon: <Bot size={22} />,
+      tech: ["Python", "Chatbot", "Automation", "Web Integration"],
       link: "#",
-      category: "Health & Wellness AI",
+      category: "AI Wellness Application",
       color: theme.success
+    },
+    {
+      title: "Platform Rebuild Projects",
+      description: "Rebuilt Udemy, TripAdvisor, and Apple Store platforms focusing on application structure and functional replication.",
+      icon: <Smartphone size={22} />,
+      tech: ["Java", "React", "MySQL", "UI/UX"],
+      link: "#",
+      category: "Platform Development",
+      color: theme.warning
     }
   ]
 
@@ -194,10 +185,8 @@ function App() {
       period: "Jun 2023 - Jul 2023",
       icon: <Wifi size={18} />,
       points: [
-        "Hands-on experience with network infrastructure setup and maintenance",
-        "Configured routers and switches for optimal network performance",
-        "Participated in troubleshooting network connectivity issues",
-        "Learned about telecom protocols and data transmission"
+        "Gained hands-on experience with network infrastructure and protocols",
+        "Configured network devices and monitored system performance"
       ],
       color: theme.primary
     },
@@ -207,10 +196,8 @@ function App() {
       period: "May 2023 - Jun 2023",
       icon: <Terminal size={18} />,
       points: [
-        "Developed Python solutions for business automation tasks",
-        "Implemented Agile methodologies in project development",
-        "Conducted code reviews and collaborative debugging sessions",
-        "Created technical documentation for developed solutions"
+        "Developed Python solutions for business problems using structured programming",
+        "Applied Agile methodologies in solution development"
       ],
       color: theme.secondary
     },
@@ -220,57 +207,53 @@ function App() {
       period: "Apr 2023 - May 2023",
       icon: <BarChart size={18} />,
       points: [
-        "Transformed raw data into interactive dashboards using BI tools",
-        "Identified key business insights through data analysis",
-        "Created visualization reports for stakeholder presentations",
-        "Optimized data processing workflows for efficiency"
+        "Created data visualizations and analysis reports",
+        "Identified trends using charts and graphs"
       ],
       color: theme.accent
     }
   ]
 
-  // Achievements
+  // Achievements based on your profile
   const achievements = [
-    { number: "5+", label: "Projects", icon: <Rocket size={18} />, color: theme.primary },
-    { number: "3", label: "Internships", icon: <Briefcase size={18} />, color: theme.secondary },
-    { number: "8.2", label: "CGPA", icon: <Award size={18} />, color: theme.success },
-    { number: "15+", label: "Technologies", icon: <Code2 size={18} />, color: theme.accent }
+    { number: "5", label: "Completed Projects", icon: <Rocket size={18} />, color: theme.primary },
+    { number: "8+", label: "Technologies", icon: <Code2 size={18} />, color: theme.secondary },
+    { number: "3", label: "Internships", icon: <Briefcase size={18} />, color: theme.success },
+    { number: "2", label: "AI Chatbots", icon: <Brain size={18} />, color: theme.accent }
   ]
 
-  // Tech Stack Categories
+  // Tech Stack Categories based on your summary
   const techCategories = [
     {
-      title: "Frontend",
-      skills: ["React", "JavaScript", "HTML5", "CSS3", "Bootstrap", "Tailwind"],
-      icon: <Layout size={20} />,
+      title: "Programming Languages",
+      skills: ["Java", "Python", "C++", "C", "JavaScript"],
+      icon: <Code2 size={20} />,
       color: theme.primary
     },
     {
-      title: "Backend",
-      skills: ["Java", "Python", "Spring Boot", "Node.js", "C++", "Flask"],
-      icon: <Server size={20} />,
+      title: "Web Development",
+      skills: ["HTML/CSS", "React", "Spring Boot", "JSP", "Bootstrap"],
+      icon: <Globe size={20} />,
       color: theme.secondary
     },
     {
-      title: "Database",
-      skills: ["MySQL", "MongoDB", "PostgreSQL", "Firebase"],
+      title: "Database & Tools",
+      skills: ["MySQL", "Database Design", "Git", "VS Code", "Agile"],
       icon: <Database size={20} />,
       color: theme.success
     },
     {
-      title: "Tools & DevOps",
-      skills: ["Git", "VS Code", "Figma", "Docker", "Agile", "Jira"],
-      icon: <Command size={20} />,
+      title: "Specialized Skills",
+      skills: ["AI/ML", "Chatbot Development", "NLP", "Software Planning", "Generative AI"],
+      icon: <Brain size={20} />,
       color: theme.accent
     }
   ]
 
   return (
     <div className="app" ref={containerRef}>
-      {/* Fixed Background */}
       <div className="minimal-bg"></div>
 
-      {/* Progress Indicator */}
       <motion.div 
         className="scroll-progress"
         style={{ 
@@ -279,14 +262,12 @@ function App() {
         }}
       />
 
-      {/* Fixed Header */}
       <motion.header 
         className="compact-header"
         style={{ backgroundColor: headerBackground }}
       >
         <div className="container">
           <div className="header-content">
-            {/* Fixed Logo - No empty gradient box */}
             <motion.div 
               className="logo"
               whileHover={{ scale: 1.05 }}
@@ -308,11 +289,10 @@ function App() {
                 transition={{ duration: 2, repeat: Infinity }}
               >
                 <Zap size={12} />
-                <span>Developer</span>
+                <span>Full Stack Developer</span>
               </motion.span>
             </motion.div>
 
-            {/* Navigation */}
             <nav className="compact-nav">
               {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
                 <motion.button
@@ -344,7 +324,6 @@ function App() {
               </motion.a>
             </nav>
 
-            {/* Mobile Menu */}
             <motion.button 
               className="menu-btn"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -357,7 +336,6 @@ function App() {
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div 
@@ -399,13 +377,10 @@ function App() {
         </AnimatePresence>
       </motion.header>
 
-      {/* Main Content */}
       <main className="main-content">
-        {/* Hero Section - Fixed gradient issue */}
         <section id="about" className="hero-section">
           <div className="container">
             <div className="hero-layout">
-              {/* Left Content */}
               <motion.div 
                 className="hero-content"
                 initial={{ opacity: 0, y: 30 }}
@@ -414,10 +389,9 @@ function App() {
               >
                 <div className="hero-badge">
                   <Sparkles size={16} />
-                  <span>Hello there, I'm</span>
+                  <span>Hello, I'm</span>
                 </div>
                 
-                {/* Fixed: No empty gradient box, just text */}
                 <h1 className="hero-title">
                   <span className="hero-name">SWETHA S</span>
                   <motion.span 
@@ -431,24 +405,28 @@ function App() {
                 
                 <h2 className="hero-subtitle">
                   <Code2 size={22} />
-                  <span>Software Developer</span>
+                  <span>Full Stack Developer</span>
                   <span className="role-tag" style={{ background: `${theme.primary}15`, color: theme.primary }}>
-                    AI/ML Specialist
+                    AI/ML Enthusiast
                   </span>
                 </h2>
                 
-                <p className="hero-description">
-                  A passionate Software Developer with expertise in building scalable web applications 
-                  and AI-powered solutions. I combine technical skills with creative problem-solving 
-                  to deliver efficient, user-friendly software that makes an impact.
-                </p>
+                <div className="professional-summary">
+                  <p className="summary-text">
+                    Technology-focused professional with expertise in <strong>Full Stack Development</strong> and 
+                    emerging <strong>AI/ML technologies</strong>. Strong programming foundation in C, C++, Java, 
+                    Python, and MySQL, combined with knowledge of software planning and generative AI. 
+                    Recognized for <strong>analytical thinking</strong>, <strong>adaptability</strong>, and a 
+                    <strong> results-oriented mindset</strong>. Passionate about building scalable, secure, 
+                    and high-performance software solutions.
+                  </p>
+                </div>
 
-                {/* Contact Info */}
                 <div className="contact-grid">
                   {[
                     { icon: <Mail size={18} />, text: "sweshinisankar@gmail.com" },
                     { icon: <Phone size={18} />, text: "+91 7904978495" },
-                    { icon: <MapPin size={18} />, text: "Coimbatore, Tamil Nadu" }
+                    { icon: <MapPin size={18} />, text: "Coimbatore, India" }
                   ].map((contact, idx) => (
                     <motion.div 
                       key={idx}
@@ -464,7 +442,6 @@ function App() {
                   ))}
                 </div>
 
-                {/* Action Buttons */}
                 <div className="action-buttons">
                   <motion.a
                     href="https://www.linkedin.com/in/swetha-s-192363285"
@@ -498,19 +475,17 @@ function App() {
                     style={{ borderColor: theme.accent, color: theme.accent }}
                   >
                     <Mail size={20} />
-                    <span>Email Me</span>
+                    <span>Contact</span>
                   </motion.a>
                 </div>
               </motion.div>
 
-              {/* Right Stats - Fixed layout */}
               <motion.div 
                 className="hero-stats"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                {/* Achievement Cards */}
                 <div className="stats-grid">
                   {achievements.map((stat, idx) => (
                     <motion.div 
@@ -533,7 +508,6 @@ function App() {
                   ))}
                 </div>
 
-                {/* Tech Expertise */}
                 <div className="tech-expertise">
                   <h3 className="expertise-title">Technical Expertise</h3>
                   <div className="expertise-grid">
@@ -567,7 +541,6 @@ function App() {
           </div>
         </section>
 
-        {/* Experience Section */}
         <section id="experience" className="section experience-section">
           <div className="container">
             <motion.div
@@ -585,7 +558,7 @@ function App() {
                 </motion.div>
                 <div>
                   <h2 className="section-title">Professional Experience</h2>
-                  <p className="section-subtitle">Internships & hands-on learning</p>
+                  <p className="section-subtitle">Internships & practical experience</p>
                 </div>
               </div>
             </motion.div>
@@ -645,7 +618,6 @@ function App() {
           </div>
         </section>
 
-        {/* Projects Section - Improved with better descriptions */}
         <section id="projects" className="section projects-section">
           <div className="container">
             <motion.div
@@ -662,8 +634,8 @@ function App() {
                   <Rocket size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Featured Projects</h2>
-                  <p className="section-subtitle">Practical applications showcasing technical skills</p>
+                  <h2 className="section-title">Project Portfolio</h2>
+                  <p className="section-subtitle">Hands-on development experience</p>
                 </div>
               </div>
             </motion.div>
@@ -701,24 +673,6 @@ function App() {
                     {project.description}
                   </p>
                   
-                  <div className="project-features">
-                    <h4 className="features-title">Key Features:</h4>
-                    <ul className="features-list">
-                      {project.features.map((feature, fIdx) => (
-                        <motion.li 
-                          key={fIdx}
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true }}
-                          transition={{ delay: fIdx * 0.1 }}
-                        >
-                          <div className="feature-dot" style={{ backgroundColor: project.color }}></div>
-                          <span>{feature}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                  
                   <div className="project-tech-stack">
                     <div className="tech-tags">
                       {project.tech.map((tech, tIdx) => (
@@ -740,13 +694,22 @@ function App() {
                       ))}
                     </div>
                   </div>
+                  
+                  <motion.a 
+                    href={project.link}
+                    className="project-link"
+                    whileHover={{ x: 5 }}
+                    style={{ color: project.color }}
+                  >
+                    <ExternalLink size={14} />
+                    <span>View Details</span>
+                  </motion.a>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Skills Section */}
         <section id="skills" className="section skills-section">
           <div className="container">
             <motion.div
@@ -763,13 +726,12 @@ function App() {
                   <Code2 size={24} />
                 </motion.div>
                 <div>
-                  <h2 className="section-title">Technical Skills</h2>
-                  <p className="section-subtitle">Proficiency levels & expertise areas</p>
+                  <h2 className="section-title">Technical Proficiency</h2>
+                  <p className="section-subtitle">Skills & capabilities</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* Skill Bars */}
             <div className="skill-bars-container">
               {techSkills.map((skill, idx) => (
                 <motion.div
@@ -804,24 +766,23 @@ function App() {
               ))}
             </div>
 
-            {/* Professional Competencies */}
             <motion.div 
               className="competencies-section"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h3 className="competencies-title">Professional Competencies</h3>
+              <h3 className="competencies-title">Professional Strengths</h3>
               <div className="competencies-grid">
                 {[
-                  { skill: "Problem Solving", level: "Advanced", icon: <Target size={20} /> },
-                  { skill: "Team Collaboration", level: "Expert", icon: <Users size={20} /> },
-                  { skill: "Adaptability", level: "Advanced", icon: <TrendingUp size={20} /> },
-                  { skill: "Analytical Thinking", level: "Advanced", icon: <Brain size={20} /> },
-                  { skill: "Communication", level: "Expert", icon: <MessageCircle size={20} /> },
-                  { skill: "Project Management", level: "Intermediate", icon: <Briefcase size={20} /> },
-                  { skill: "Code Optimization", level: "Advanced", icon: <Zap size={20} /> },
-                  { skill: "Continuous Learning", level: "Expert", icon: <GraduationCap size={20} /> }
+                  { skill: "Full Stack Development", level: "Advanced", icon: <Code2 size={20} /> },
+                  { skill: "AI/ML Technologies", level: "Proficient", icon: <Brain size={20} /> },
+                  { skill: "Analytical Thinking", level: "Advanced", icon: <Target size={20} /> },
+                  { skill: "Software Planning", level: "Proficient", icon: <Layout size={20} /> },
+                  { skill: "Problem Solving", level: "Advanced", icon: <Zap size={20} /> },
+                  { skill: "Adaptability", level: "Expert", icon: <Cloud size={20} /> },
+                  { skill: "Results-Oriented", level: "Advanced", icon: <CheckCircle size={20} /> },
+                  { skill: "Team Collaboration", level: "Proficient", icon: <Users size={20} /> }
                 ].map((comp, idx) => (
                   <motion.div
                     key={comp.skill}
@@ -848,7 +809,6 @@ function App() {
           </div>
         </section>
 
-        {/* Education Section */}
         <section id="education" className="section education-section">
           <div className="container">
             <motion.div
@@ -866,7 +826,7 @@ function App() {
                 </motion.div>
                 <div>
                   <h2 className="section-title">Education</h2>
-                  <p className="section-subtitle">Academic background & achievements</p>
+                  <p className="section-subtitle">Academic qualifications</p>
                 </div>
               </div>
             </motion.div>
@@ -940,7 +900,7 @@ function App() {
                   </motion.div>
                   <div className="education-info">
                     <h3>Higher Secondary Certificate (HSC)</h3>
-                    <p className="institution-name">Venkatalakshmi Matriculation & Punitha Arockia Annai HSS</p>
+                    <p className="institution-name">Science with Mathematics</p>
                   </div>
                 </div>
                 <div className="education-stats">
@@ -972,15 +932,13 @@ function App() {
         </section>
       </main>
 
-      {/* Footer - Fixed gradient issue */}
       <footer className="footer-section">
         <div className="container">
           <div className="footer-content-wrapper">
             <div className="footer-main-content">
               <div className="footer-info-section">
-                {/* Fixed: No gradient box, just regular text */}
                 <h3 className="footer-name">SWETHA S</h3>
-                <p className="footer-tagline-text">Software Developer & AI Enthusiast</p>
+                <p className="footer-tagline-text">Full Stack Developer & AI/ML Enthusiast</p>
                 <div className="footer-contact-info">
                   <div className="contact-info-item">
                     <Mail size={18} />
@@ -990,16 +948,12 @@ function App() {
                     <Phone size={18} />
                     <span>+91 7904978495</span>
                   </div>
-                  <div className="contact-info-item">
-                    <MapPin size={18} />
-                    <span>Coimbatore, Tamil Nadu</span>
-                  </div>
                 </div>
               </div>
 
               <div className="footer-links-section">
                 <div className="links-group">
-                  <h4>Quick Links</h4>
+                  <h4>Navigation</h4>
                   {["About", "Experience", "Projects", "Skills", "Education"].map((item) => (
                     <motion.a 
                       key={item}
@@ -1047,7 +1001,7 @@ function App() {
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                © {new Date().getFullYear()} SWETHA S. All rights reserved.
+                © {new Date().getFullYear()} SWETHA S. Crafted with React & Framer Motion
               </motion.p>
               <div className="footer-social-links">
                 {[
@@ -1072,7 +1026,6 @@ function App() {
         </div>
       </footer>
 
-      {/* Back to Top */}
       <AnimatePresence>
         {isScrolled && (
           <motion.button
