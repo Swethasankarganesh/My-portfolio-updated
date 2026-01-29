@@ -20,9 +20,7 @@ import {
   Sparkles,
   ArrowUp,
   Brain,
-  ShoppingBag,
   Book,
-  MessageCircle,
   Wifi,
   Terminal,
   BarChart,
@@ -31,9 +29,6 @@ import {
   Server,
   Database,
   Layout,
-  Command,
-  Users,
-  Shield,
   Cloud,
   Heart,
   Smartphone,
@@ -282,22 +277,6 @@ function App() {
     }
   ]
 
-  // FIXED: Resume download function with proper file handling
-  const handleResumeDownload = () => {
-    // Try multiple possible file locations
-    const resumePath = "/Swetha1.pdf";
-    
-    // Create a temporary link element
-    const link = document.createElement('a');
-    link.href = resumePath;
-    link.download = 'Swetha_S_Resume.pdf';
-    link.target = '_blank';
-    
-    // Append to body, click, and remove
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
 
   // FIXED: Alternative method using fetch
   const downloadResume = async () => {
